@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Quiz App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+    }
+    header {
+      background-color: #222;
+      padding: 20px;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .hero {
+      background-color: #00b3b3;
+      padding: 50px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .hero button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: white;
+      color: #00b3b3;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .features {
+      padding: 40px 20px;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .feature-box {
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      width: 250px;
+      text-align: center;
+    }
+    .quiz-section {
+      background-color: #f5f5f5;
+      color: #000;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .quiz-box {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #aaa;
+    }
+    .quiz-box button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: #00b3b3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Log in</a>
+      <a href="#">Sign up</a>
+      <a href="#quiz">Calculator</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>Welcome to Our Website</h1>
+    <p>Find the best vehicle that you can afford.</p>
+    <button onclick="document.getElementById('quiz').scrollIntoView({behavior: 'smooth'})">Get Started</button>
+  </div>
+
+  <section class="features">
+    <div class="feature-box">
+      <h3>Accurate Calculations</h3>
+      <p>Use our calculator to get precise affordability estimates.</p>
+    </div>
+    <div class="feature-box">
+      <h3>Easy to Use</h3>
+      <p>Our interface is user-friendly and intuitive.</p>
+    </div>
+  </section>
+
+  <section class="quiz-section" id="quiz">
+    <h2>Interactive Quiz Application</h2>
+    <div class="quiz-box">
+      <h3 id="question">Loading...</h3>
+      <div id="options"></div>
+      <p id="score"></p>
+    </div>
+  </section>
+
+  <script>
+    const quizData = [
+      {
+        question: "Which language runs in a web browser?",
+        options: ["Java", "C", "Python", "JavaScript"],
+        answer: "JavaScript"
+      },
+      {
+        question: "What does CSS stand for?",
+        options: ["Cascading Style Sheets", "Computer Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"],
+        answer: "Cascading Style Sheets"
+      },
+      {
+        question: "What does HTML stand for?",
+        options: ["Hyper Text Markup Language", "HighText Machine Language", "Hyperlink Text Mark Language", "None of these"],
+        answer: "Hyper Text Markup Language"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const scoreEl = document.getElementById('score');
+
+    function loadQuestion() {
+      const q = quizData[current];
+      questionEl.innerText = q.question;
+      optionsEl.innerHTML = '';
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt, q.answer);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected, correct) {
+      if (selected === correct) {
+        score++;
+        alert("✅ Correct!");
+      } else {
+        alert(`❌ Wrong! Correct Answer: ${correct}`);
+      }
+      current++;
+      if (current < quizData.length) {
+        loadQuestion();
+      } else {
+        showScore();
+      }
+    }
+
+    function showScore() {
+      questionEl.innerText = "Quiz Finished!";
+      optionsEl.innerHTML = '';
+      scoreEl.innerText = `🎉 Your Score: ${score} / ${quizData.length}`;
+    }
+
+    // Start Quiz
+    loadQuestion();
+  </script>
+
+</body>
+</html>
